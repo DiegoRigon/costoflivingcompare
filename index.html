@@ -47,15 +47,19 @@
   }
   </script>
 
-<!-- Google Analytics -->
+<!-- Google Analytics (GDPR: default denied, activated on consent) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZRLF30LY5H"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', { analytics_storage: 'denied' });
   gtag('js', new Date());
   gtag('config', 'G-ZRLF30LY5H');
+  // Auto-grant if user already accepted
+  if (document.cookie.includes('cookie_consent=accepted')) {
+    gtag('consent', 'update', { analytics_storage: 'granted' });
+  }
 </script>
-
   
   <!-- Google Fonts preconnect -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
