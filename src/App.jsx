@@ -102,7 +102,7 @@ function Selector({ value, onChange, label, exclude }) {
     if (f.length) filtered[g] = f;
   });
 
-  const  = CITIES_DATA[value];
+const city = CITIES_DATA[value];
 
   return (
     <div ref={ref} style={{ position: "relative", flex: 1, minWidth: 180 }}>
