@@ -76,8 +76,8 @@ function AdSlot({ id, style }) {
   );
 }
 
-/* ─── City Selector ─── */
-function CitySelector({ value, onChange, label, excludeCity }) {
+/* ───  Selector ─── */
+function Selector({ value, onChange, label, exclude }) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
   const ref = useRef(null);
@@ -90,7 +90,7 @@ function CitySelector({ value, onChange, label, excludeCity }) {
     return () => document.removeEventListener("mousedown", h);
   }, []);
 
-  const groups = groupCities(excludeCity);
+  const groups = groupCities(exclude);
   const filtered = {};
   Object.entries(groups).forEach(([g, cities]) => {
     const f = cities.filter(
@@ -102,17 +102,17 @@ function CitySelector({ value, onChange, label, excludeCity }) {
     if (f.length) filtered[g] = f;
   });
 
-  const city = CITIES_DATA[value];
+  const  = CITIES_DATA[value];
 
   return (
     <div ref={ref} style={{ position: "relative", flex: 1, minWidth: 180 }}>
       <label style={S.label}>{label}</label>
       <button onClick={() => setOpen(!open)} style={S.selectorBtn}>
-        {city && <span style={{ fontSize: 22 }}>{FLAGS[city.country]}</span>}
+        { && <span style={{ fontSize: 22 }}>{FLAGS[.country]}</span>}
         <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
           {value || "Select..."}
         </span>
-        <span style={{ marginLeft: "auto", opacity: 0.4, fontSize: 13 }}>▼</span>
+        <span style={{ marginLeft: "auto", opa: 0.4, fontSize: 13 }}>▼</span>
       </button>
       {open && (
         <div style={S.dropdown}>
@@ -121,7 +121,7 @@ function CitySelector({ value, onChange, label, excludeCity }) {
               autoFocus
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search city, region..."
+              placeholder="Search , region..."
               style={S.searchInput}
             />
           </div>
@@ -156,7 +156,7 @@ function CitySelector({ value, onChange, label, excludeCity }) {
                   >
                     <span>{FLAGS[CITIES_DATA[c].country]}</span>
                     <span style={{ flex: 1 }}>{c}</span>
-                    <span style={{ opacity: 0.35, fontSize: 11 }}>{CITIES_DATA[c].region}</span>
+                    <span style={{ opa: 0.35, fontSize: 11 }}>{CITIES_DATA[c].region}</span>
                   </button>
                 ))}
               </div>
@@ -265,7 +265,7 @@ export default function App() {
               WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
             }}
           >
-            City vs City
+            Compare Your Cost of Living
           </h1>
           <p style={{ color: "#666", fontSize: 14, marginTop: 12 }}>
             {totalCities} cities · {italianCities} Italian regions · Real cost data
