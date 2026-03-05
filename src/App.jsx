@@ -309,6 +309,38 @@ function AllComparisonsPage() {
   </>;
 }
 
+function CookieBanner() {
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    try { if (!document.cookie.includes("cookie_consent=")) setVisible(true); } catch(e) { setVisible(true); }
+  }, []);
+  const accept = () => {
+    try { document.cookie = "cookie_consent=accepted;max-age=31536000;path=/;SameSite=Lax"; } catch(e) {}
+    setVisible(false);
+    // Activate Google Analytics after consent
+    if (window.gtag) { window.gtag("consent", "update", { analytics_storage: "granted" }); }
+  };
+  const decline = () => {
+    try { document.cookie = "cookie_consent=declined;max-age=31536000;path=/;SameSite=Lax"; } catch(e) {}
+    setVisible(false);
+  };
+  if (!visible) return null;
+  return (
+    <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 9999, background: "rgba(13,13,26,0.97)", borderTop: "1px solid rgba(255,200,87,0.2)", padding: "16px 20px", backdropFilter: "blur(12px)" }}>
+      <div style={{ maxWidth: 720, margin: "0 auto", display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap", justifyContent: "space-between" }}>
+        <p style={{ color: "#ccc", fontSize: 13, lineHeight: 1.6, flex: 1, minWidth: 250, margin: 0 }}>
+          We use cookies to analyze site traffic and improve your experience. By clicking "Accept", you consent to our use of analytics cookies.
+          <a href="https://policies.google.com/technologies/cookies" target="_blank" rel="noopener noreferrer" style={{ color: "#ffc857", marginLeft: 4 }}>Learn more</a>
+        </p>
+        <div style={{ display: "flex", gap: 8 }}>
+          <button onClick={decline} style={{ padding: "8px 20px", background: "transparent", border: "1px solid rgba(255,255,255,0.15)", borderRadius: 8, color: "#888", fontSize: 13, cursor: "pointer", fontFamily: "'DM Sans',sans-serif" }}>Decline</button>
+          <button onClick={accept} style={{ padding: "8px 20px", background: "#ffc857", border: "none", borderRadius: 8, color: "#0d0d1a", fontSize: 13, fontWeight: 700, cursor: "pointer", fontFamily: "'DM Sans',sans-serif" }}>Accept</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function App() {
   const route = useRoute();
   let page;
@@ -321,5 +353,5 @@ export default function App() {
     page = parts.length === 2 ? <ComparisonPage slugA={parts[0]} slugB={parts[1]} /> : <HomePage />;
   } else if (route.startsWith("/city/")) page = <CityPage slug={route.replace("/city/", "")} />;
   else page = <HomePage />;
-  return <div style={S.page}><div style={S.wrap}><NavBar />{page}<Footer /></div></div>;
+  return <div style={S.page}><div style={S.wrap}><NavBar />{page}<Footer /></div><CookieBanner /></div>;
 }
